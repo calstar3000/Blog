@@ -2,8 +2,9 @@
 
 namespace Blog.Data.Repositories.Interfaces
 {
-	public interface IPostsRepository
+	public interface IPostRepository
 	{
+		Post GetPost(int id);
 		List<Post> GetPosts();
 	}
 }

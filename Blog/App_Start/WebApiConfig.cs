@@ -26,6 +26,12 @@ namespace Blog
 				routeTemplate: "api/blog/posts/{id}",
 				defaults: new { controller = "posts", id = RouteParameter.Optional }
 			);
+
+			config.Routes.MapHttpRoute(
+				name: "Comment",
+				routeTemplate: "api/blog/posts/{postId}/comments/{id}",
+				defaults: new { controller = "comments", id = RouteParameter.Optional }
+			);
 		}
 	}
 }

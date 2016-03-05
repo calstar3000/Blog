@@ -64,7 +64,8 @@ namespace Blog.App_Start
 		/// <param name="kernel">The kernel.</param>
 		private static void RegisterServices(IKernel kernel)
 		{
-			kernel.Bind<Data.Repositories.Interfaces.IPostsRepository>().To<Data.Repositories.PostRepository>();
+			kernel.Bind<Data.Repositories.Interfaces.IPostRepository>().To<Data.Repositories.PostRepository>();
+			kernel.Bind<Data.Repositories.Interfaces.ICommentRepository>().To<Data.Repositories.CommentRepository>();
 		}
 	}
 }

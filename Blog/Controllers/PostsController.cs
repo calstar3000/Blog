@@ -7,23 +7,23 @@ namespace Blog.Controllers
 	[AllowAnonymous]
 	public class PostsController : ApiController
 	{
-		private IPostsRepository _repo;
+		private IPostRepository _repo;
 
-		public PostsController(IPostsRepository repo)
+		public PostsController(IPostRepository repo)
 		{
 			_repo = repo;
 		}
 
-		// GET: api/Posts
+		// GET: api/blog/posts/
 		public IEnumerable<Data.Post> Get()
 		{
 			return _repo.GetPosts();
 		}
 
-		// GET: api/Posts/5
-		public string Get(int id)
+		// GET: api/blog/posts/5
+		public Data.Post Get(int id)
 		{
-			return "value";
+			return _repo.GetPost(id);
 		}
 
 		// POST: api/Posts

@@ -1,0 +1,41 @@
+﻿using Blog.Data;
+using System.Linq;
+using System.Net.Http;
+using System.Web.Http.Routing;
+
+namespace Blog.Models
+{
+	public class ModelFactory
+	{
+		private UrlHelper _urlHelper;
+
+		public ModelFactory(HttpRequestMessage request)
+		{
+			_urlHelper = new UrlHelper(request);
+		}
+
+		public PostModel Create(Post post)
+		{
+			return new PostModel()
+			{
+				Url = _urlHelper.Link("Post", new { postId = post.Id }),
+				Id = post.Id,
+				Title = post.Title,
+				Body = post.Body,
+				DatePosted = post.DatePosted,
+				Comments = post.Comments.Select(c => Create(c, post.Id)).ToList()
+			};
+		}
+
+		public CommentModel Create(Comment comment, int postId)
+		{
+			return new CommentModel()
+			{
+				Url = _urlHelper.Link("Comment", new { postId = postId, commentId = comment.Id }),
+				Id = comment.Id,
+				Body = comment.Body,
+				DatePosted = comment.DatePosted
+			};
+		}
+	}
+}

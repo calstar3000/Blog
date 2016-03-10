@@ -1,28 +1,29 @@
-﻿using Blog.Data.Repositories.Interfaces;
+﻿using Blog.Data;
+using Blog.Data.Repositories.Interfaces;
+using Blog.Models;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Http;
 
 namespace Blog.Controllers
 {
-	public class CommentsController : ApiController
+	public class CommentsController : BaseApiController
 	{
-		private ICommentRepository _repo;
-
-		public CommentsController(ICommentRepository repo)
-		{
-			_repo = repo;
-		}
+		public CommentsController(ICommentRepository commentRepository)
+			: base(commentRepository) { }
 
 		// GET: api/blog/posts/5/comments/
-		public IEnumerable<Data.Comment> Get(int postId)
+		public IEnumerable<CommentModel> Get(int postId)
 		{
-			return _repo.GetComments(postId);
+			List<Comment> results = CommentRepository.GetComments(postId);
+
+			return results.Select(c => ModelFactory.Create(c, postId));
 		}
 
 		// GET: api/blog/posts/5/comments/1
-		public Data.Comment Get(int postId, int id)
+		public CommentModel Get(int postId, int commentId)
 		{
-			return _repo.GetComment(postId, id);
+			return ModelFactory.Create(CommentRepository.GetComment(postId, commentId), postId);
 		}
 
 		// POST: api/Comments

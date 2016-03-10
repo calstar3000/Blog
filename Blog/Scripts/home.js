@@ -11,7 +11,7 @@
 				$comments.append("<li><p>" + this.body + "</p></li>")
 			});
 			
-			$this.append("<li><p>" + this.datePublished + " - " + this.title + "</p><p>" + this.body + "</p>" + $comments[0].outerHTML + "</li>");
+			$this.append("<li><p>" + this.datePosted + " - " + this.title + "</p><p>" + this.body + "</p>" + $comments[0].outerHTML + "</li>");
 		});
 	});
 };

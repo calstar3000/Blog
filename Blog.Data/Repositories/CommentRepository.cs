@@ -1,5 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Configuration;
+using System.Data.SqlClient;
 using System.Linq;
 
 namespace Blog.Data.Repositories
@@ -13,12 +14,35 @@ namespace Blog.Data.Repositories
 
 		public List<Comment> GetComments(int postId)
 		{
-			return new List<Comment>()
+			List<Comment> results = new List<Comment>();
+			SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+
+			using (connection)
 			{
-				new Comment(3, string.Format("Third comment for post {0}", postId), DateTime.Now.AddDays(-1)),
-				new Comment(2, string.Format("Second comment for post {0}", postId), DateTime.Now.AddDays(-2)),
-				new Comment(1, string.Format("First comment for post {0}", postId), DateTime.Now.AddDays(-3))
-			};
+				SqlCommand command = new SqlCommand(string.Format("SELECT id, body, date_posted FROM dbo.comment WITH(NOLOCK) WHERE post_id = {0} ORDER BY id DESC;", postId), connection);
+
+				connection.Open();
+
+				SqlDataReader reader = command.ExecuteReader();
+
+				if (reader.HasRows)
+				{
+					while (reader.Read())
+					{
+						Comment item = new Comment();
+
+						item.Id = reader.GetInt32(reader.GetOrdinal("id"));
+						item.Body = reader.GetString(reader.GetOrdinal("body"));
+						item.DatePosted = reader.GetDateTime(reader.GetOrdinal("date_posted"));
+
+						results.Add(item);
+					}
+				}
+
+				reader.Close();
+
+				return results;
+			}
 		}
 	}
 }

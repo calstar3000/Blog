@@ -1,5 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Configuration;
+using System.Data.SqlClient;
 using System.Linq;
 
 namespace Blog.Data.Repositories
@@ -13,12 +14,37 @@ namespace Blog.Data.Repositories
 
 		public List<Post> GetPosts()
 		{
-			return new List<Post>()
+			List<Post> results = new List<Post>();
+			SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+
+			using (connection)
 			{
-				new Post(3, "Third post", "My very third post", DateTime.Now.AddDays(-1)),
-				new Post(2, "Second post", "My very second post", DateTime.Now.AddDays(-2)),
-				new Post(1, "First post", "My very first post", DateTime.Now.AddDays(-3))
-			};
+				SqlCommand command = new SqlCommand("SELECT id, title, body, date_posted FROM dbo.post WITH(NOLOCK) ORDER BY id DESC;", connection);
+
+				connection.Open();
+
+				SqlDataReader reader = command.ExecuteReader();
+
+				if (reader.HasRows)
+				{
+					while (reader.Read())
+					{
+						Post item = new Post();
+
+						item.Id = reader.GetInt32(reader.GetOrdinal("id"));
+						item.Title = reader.GetString(reader.GetOrdinal("title"));
+						item.Body = reader.GetString(reader.GetOrdinal("body"));
+						item.DatePosted = reader.GetDateTime(reader.GetOrdinal("date_posted"));
+						item.Comments = new CommentRepository().GetComments(item.Id);
+
+						results.Add(item);
+					}
+				}
+
+				reader.Close();
+
+				return results;
+			}
 		}
 	}
 }

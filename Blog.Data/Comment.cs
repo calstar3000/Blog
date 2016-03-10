@@ -8,6 +8,8 @@ namespace Blog.Data
 		public string Body { get; set; }
 		public DateTime DatePosted { get; set; }
 
+		public Comment() { }
+
 		public Comment(int id, string body, DateTime datePosted)
 		{
 			Id = id;

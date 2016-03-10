@@ -1,29 +1,30 @@
-﻿using Blog.Data.Repositories.Interfaces;
+﻿using Blog.Data;
+using Blog.Data.Repositories.Interfaces;
+using Blog.Models;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Http;
 
 namespace Blog.Controllers
 {
 	[AllowAnonymous]
-	public class PostsController : ApiController
+	public class PostsController : BaseApiController
 	{
-		private IPostRepository _repo;
-
-		public PostsController(IPostRepository repo)
-		{
-			_repo = repo;
-		}
+		public PostsController(IPostRepository postRepository) 
+			: base(postRepository) { }
 
 		// GET: api/blog/posts/
-		public IEnumerable<Data.Post> Get()
+		public IEnumerable<PostModel> Get()
 		{
-			return _repo.GetPosts();
+			List<Post> results = PostRepository.GetPosts();
+
+			return results.Select(p => ModelFactory.Create(p));
 		}
 
 		// GET: api/blog/posts/5
-		public Data.Post Get(int id)
+		public PostModel Get(int postId)
 		{
-			return _repo.GetPost(id);
+			return ModelFactory.Create(PostRepository.GetPost(postId));
 		}
 
 		// POST: api/Posts

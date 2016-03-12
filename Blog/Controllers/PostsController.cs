@@ -1,6 +1,7 @@
 ﻿using Blog.Data;
 using Blog.Data.Repositories.Interfaces;
 using Blog.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -33,9 +34,25 @@ namespace Blog.Controllers
 		}
 
 		// POST: api/Posts
-		public void Post([FromBody]PostModel post)
+		public HttpResponseMessage Post([FromBody]PostModel postRequest)
 		{
+			PostModel result = new PostModel();
 
+			try
+			{
+				Post post = ModelFactory.Parse(postRequest);
+
+				if (post == null)
+					Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Could not read post in body");
+
+				int postId = post.Save();
+
+				return Request.CreateResponse(HttpStatusCode.Created, ModelFactory.Create(PostRepository.GetPost(postId)));
+			}
+			catch (Exception ex)
+			{
+				return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
+			}
 		}
 
 		// PUT: api/Posts/5

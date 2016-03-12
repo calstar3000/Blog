@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net.Http;
 using System.Web.Http.Routing;
+using System;
 
 namespace Blog.Models
 {
@@ -42,6 +43,27 @@ namespace Blog.Models
 				Body = comment.Body,
 				DatePosted = comment.DatePosted
 			};
+		}
+
+		public Post Parse(PostModel post)
+		{
+			try
+			{
+				if (string.IsNullOrEmpty(post.Title))
+					return null;
+				if (string.IsNullOrEmpty(post.Body))
+					return null;
+
+				return new Post()
+				{
+					Title = post.Title,
+					Body = post.Body
+				};
+			}
+			catch
+			{
+				return null;
+			}
 		}
 	}
 }

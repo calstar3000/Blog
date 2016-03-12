@@ -9,7 +9,26 @@ namespace Blog.Data.Repositories
 	{
 		public Comment GetComment(int postId, int commentId)
 		{
-			return GetComments(postId).Where(comment => comment.Id == commentId).FirstOrDefault();
+			Comment result = new Comment();
+			SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+
+			using (connection)
+			{
+				SqlCommand command = new SqlCommand(string.Format("SELECT id, body, date_posted FROM dbo.comment WITH(NOLOCK) WHERE post_id = {0} AND id = {1};", postId, commentId), connection);
+
+				connection.Open();
+
+				SqlDataReader dr = command.ExecuteReader();
+
+				if (dr.HasRows && dr.Read())
+				{
+					result = PopulateComment(dr);
+				}
+
+				dr.Close();
+			}
+
+			return result;
 		}
 
 		public List<Comment> GetComments(int postId)
@@ -23,26 +42,30 @@ namespace Blog.Data.Repositories
 
 				connection.Open();
 
-				SqlDataReader reader = command.ExecuteReader();
+				SqlDataReader dr = command.ExecuteReader();
 
-				if (reader.HasRows)
+				if (dr.HasRows)
 				{
-					while (reader.Read())
+					while (dr.Read())
 					{
-						Comment item = new Comment();
-
-						item.Id = reader.GetInt32(reader.GetOrdinal("id"));
-						item.Body = reader.GetString(reader.GetOrdinal("body"));
-						item.DatePosted = reader.GetDateTime(reader.GetOrdinal("date_posted"));
-
-						results.Add(item);
+						results.Add(PopulateComment(dr));
 					}
 				}
 
-				reader.Close();
-
-				return results;
+				dr.Close();
 			}
+
+			return results;
+		}
+
+		private Comment PopulateComment(SqlDataReader dr)
+		{
+			return new Comment()
+			{
+				Id = dr.GetInt32(dr.GetOrdinal("id")),
+				Body = dr.GetString(dr.GetOrdinal("body")),
+				DatePosted = dr.GetDateTime(dr.GetOrdinal("date_posted"))
+			};
 		}
 	}
 }

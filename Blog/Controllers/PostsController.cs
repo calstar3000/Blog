@@ -3,6 +3,8 @@ using Blog.Data.Repositories.Interfaces;
 using Blog.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Web.Http;
 
 namespace Blog.Controllers
@@ -22,14 +24,20 @@ namespace Blog.Controllers
 		}
 
 		// GET: api/blog/posts/5
-		public PostModel Get(int postId)
+		public HttpResponseMessage Get(int postId)
 		{
-			return ModelFactory.Create(PostRepository.GetPost(postId));
+			PostModel post = ModelFactory.Create(PostRepository.GetPost(postId));
+
+			if (post == null)
+				return Request.CreateResponse(HttpStatusCode.NotFound);
+
+			return Request.CreateResponse(HttpStatusCode.OK, post);
 		}
 
 		// POST: api/Posts
-		public void Post([FromBody]string value)
+		public void Post([FromBody]PostModel post)
 		{
+
 		}
 
 		// PUT: api/Posts/5

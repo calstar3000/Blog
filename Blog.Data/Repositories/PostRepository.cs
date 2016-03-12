@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
-using System.Linq;
 
 namespace Blog.Data.Repositories
 {
@@ -9,7 +8,26 @@ namespace Blog.Data.Repositories
 	{
 		public Post GetPost(int id)
 		{
-			return GetPosts().Where(post => post.Id == id).FirstOrDefault();
+			Post result = new Post();
+			SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+
+			using (connection)
+			{
+				SqlCommand command = new SqlCommand(string.Format("SELECT id, title, body, date_posted FROM dbo.post WITH(NOLOCK) WHERE id = {0};", id), connection);
+
+				connection.Open();
+
+				SqlDataReader dr = command.ExecuteReader();
+
+				if (dr.HasRows && dr.Read())
+				{
+					result = PopulatePost(dr);
+				}
+
+				dr.Close();
+			}
+
+			return result;
 		}
 
 		public List<Post> GetPosts()
@@ -23,28 +41,32 @@ namespace Blog.Data.Repositories
 
 				connection.Open();
 
-				SqlDataReader reader = command.ExecuteReader();
+				SqlDataReader dr = command.ExecuteReader();
 
-				if (reader.HasRows)
+				if (dr.HasRows)
 				{
-					while (reader.Read())
+					while (dr.Read())
 					{
-						Post item = new Post();
-
-						item.Id = reader.GetInt32(reader.GetOrdinal("id"));
-						item.Title = reader.GetString(reader.GetOrdinal("title"));
-						item.Body = reader.GetString(reader.GetOrdinal("body"));
-						item.DatePosted = reader.GetDateTime(reader.GetOrdinal("date_posted"));
-						item.Comments = new CommentRepository().GetComments(item.Id);
-
-						results.Add(item);
+						results.Add(PopulatePost(dr));
 					}
 				}
 
-				reader.Close();
-
-				return results;
+				dr.Close();
 			}
+
+			return results;
+		}
+
+		private Post PopulatePost(SqlDataReader dr)
+		{
+			return new Post()
+			{
+				Id = dr.GetInt32(dr.GetOrdinal("id")),
+				Title = dr.GetString(dr.GetOrdinal("title")),
+				Body = dr.GetString(dr.GetOrdinal("body")),
+				DatePosted = dr.GetDateTime(dr.GetOrdinal("date_posted")),
+				Comments = new CommentRepository().GetComments(dr.GetInt32(dr.GetOrdinal("id")))
+			};
 		}
 	}
 }

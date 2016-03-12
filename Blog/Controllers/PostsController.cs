@@ -18,20 +18,18 @@ namespace Blog.Controllers
 		// GET: api/blog/posts/
 		public IEnumerable<PostModel> Get()
 		{
-			List<Post> results = PostRepository.GetPosts();
-
-			return results.Select(p => ModelFactory.Create(p));
+			return PostRepository.GetPosts().Select(p => ModelFactory.Create(p));
 		}
 
 		// GET: api/blog/posts/5
 		public HttpResponseMessage Get(int postId)
 		{
-			PostModel post = ModelFactory.Create(PostRepository.GetPost(postId));
+			PostModel result = ModelFactory.Create(PostRepository.GetPost(postId));
 
-			if (post == null)
+			if (result == null)
 				return Request.CreateResponse(HttpStatusCode.NotFound);
 
-			return Request.CreateResponse(HttpStatusCode.OK, post);
+			return Request.CreateResponse(HttpStatusCode.OK, result);
 		}
 
 		// POST: api/Posts

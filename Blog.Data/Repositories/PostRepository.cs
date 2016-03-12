@@ -8,7 +8,7 @@ namespace Blog.Data.Repositories
 	{
 		public Post GetPost(int id)
 		{
-			Post result = new Post();
+			Post result = null;
 			SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
 
 			using (connection)

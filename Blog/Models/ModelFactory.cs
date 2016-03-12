@@ -16,6 +16,9 @@ namespace Blog.Models
 
 		public PostModel Create(Post post)
 		{
+			if (post == null)
+				return null;
+
 			return new PostModel()
 			{
 				Url = _urlHelper.Link("Post", new { postId = post.Id }),
@@ -29,6 +32,9 @@ namespace Blog.Models
 
 		public CommentModel Create(Comment comment, int postId)
 		{
+			if (comment == null)
+				return null;
+
 			return new CommentModel()
 			{
 				Url = _urlHelper.Link("Comment", new { postId = postId, commentId = comment.Id }),

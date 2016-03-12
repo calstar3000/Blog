@@ -3,6 +3,8 @@ using Blog.Data.Repositories.Interfaces;
 using Blog.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Web.Http;
 
 namespace Blog.Controllers
@@ -15,15 +17,18 @@ namespace Blog.Controllers
 		// GET: api/blog/posts/5/comments/
 		public IEnumerable<CommentModel> Get(int postId)
 		{
-			List<Comment> results = CommentRepository.GetComments(postId);
-
-			return results.Select(c => ModelFactory.Create(c, postId));
+			return CommentRepository.GetComments(postId).Select(c => ModelFactory.Create(c, postId));
 		}
 
 		// GET: api/blog/posts/5/comments/1
-		public CommentModel Get(int postId, int commentId)
+		public HttpResponseMessage Get(int postId, int commentId)
 		{
-			return ModelFactory.Create(CommentRepository.GetComment(postId, commentId), postId);
+			CommentModel result = ModelFactory.Create(CommentRepository.GetComment(postId, commentId), postId);
+
+			if (result == null)
+				return Request.CreateResponse(HttpStatusCode.NotFound);
+
+			return Request.CreateResponse(HttpStatusCode.OK, result);
 		}
 
 		// POST: api/Comments

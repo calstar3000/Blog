@@ -9,7 +9,7 @@ namespace Blog.Data.Repositories
 	{
 		public Comment GetComment(int postId, int commentId)
 		{
-			Comment result = new Comment();
+			Comment result = null;
 			SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
 
 			using (connection)

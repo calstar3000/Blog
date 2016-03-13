@@ -2,6 +2,7 @@
 using Microsoft.Owin.Security.OAuth;
 using System.Net.Http.Headers;
 using Newtonsoft.Json.Serialization;
+using Blog.Filters;
 
 namespace Blog
 {
@@ -13,6 +14,11 @@ namespace Blog
 			// Configure Web API to use only bearer token authentication.
 			config.SuppressDefaultHostAuthentication();
 			config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
+
+#if !DEBUG
+			// Force HTTPS on entire API
+			config.Filters.Add(new RequireHttpsAttribute());
+#endif
 
 			// Web API routes
 			config.MapHttpAttributeRoutes();

@@ -1,5 +1,6 @@
 ﻿using Blog.Data;
 using Blog.Data.Repositories.Interfaces;
+using Blog.Filters;
 using Blog.Models;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,8 @@ using System.Web.Http;
 
 namespace Blog.Controllers
 {
-	[AllowAnonymous]
+	//[AllowAnonymous]
+	[BlogAuthorize]
 	public class PostsController : BaseApiController
 	{
 		public PostsController(IPostRepository postRepository) 

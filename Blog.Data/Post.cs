@@ -24,30 +24,56 @@ namespace Blog.Data
 			Comments = new Repositories.CommentRepository().GetComments(id);
 		}
 
-		public int Save()
+		public void Save()
 		{
-			int result = 0;
 			SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
 
 			using (connection)
 			{
-				SqlCommand command = new SqlCommand(string.Format("INSERT INTO dbo.post WITH(ROWLOCK) (title, body) VALUES ('{0}', '{1}');", Title, Body), connection);
 				connection.Open();
-				command.ExecuteNonQuery();
 
-				command = new SqlCommand("SELECT TOP 1 id FROM dbo.post WITH(NOLOCK) ORDER BY id DESC;", connection);
+				if (Id <= 0)
+					DoInsert(connection);
+				else
+					DoUpdate(connection);
+			}
+		}
 
-				SqlDataReader dr = command.ExecuteReader();
+		private void DoInsert(SqlConnection connection)
+		{
+			SqlCommand command = new SqlCommand(string.Format("INSERT INTO dbo.post WITH(ROWLOCK) (title, body) VALUES ('{0}', '{1}');", Title, Body), connection);
+			
+			command.ExecuteNonQuery();
 
-				if (dr.HasRows && dr.Read())
-				{
-					result = dr.GetInt32(dr.GetOrdinal("id"));
-				}
+			command = new SqlCommand("SELECT TOP 1 id FROM dbo.post WITH(NOLOCK) ORDER BY id DESC;", connection);
 
-				dr.Close();
+			SqlDataReader dr = command.ExecuteReader();
+
+			if (dr.HasRows && dr.Read())
+			{
+				Id = dr.GetInt32(dr.GetOrdinal("id"));
 			}
 
-			return result;
+			dr.Close();
+		}
+
+		private void DoUpdate(SqlConnection connection)
+		{
+			SqlCommand command = new SqlCommand(string.Format("UPDATE dbo.post WITH(ROWLOCK) SET title = '{0}', body = '{1}' WHERE id = {2};", Title, Body, Id), connection);
+
+			command.ExecuteNonQuery();
+		}
+
+		public void Delete()
+		{
+			SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+
+			using (connection)
+			{
+				SqlCommand command = new SqlCommand(string.Format("DELETE FROM dbo.post WITH(ROWLOCK) WHERE id = {0};", Id), connection);
+				connection.Open();
+				command.ExecuteNonQuery();
+			}
 		}
 	}
 }

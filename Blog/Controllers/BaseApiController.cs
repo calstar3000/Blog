@@ -20,6 +20,12 @@ namespace Blog.Controllers
 			_commentRepository = commentRepository;
 		}
 
+		public BaseApiController(IPostRepository postRepository, ICommentRepository commentRepository)
+		{
+			_postRepository = postRepository;
+			_commentRepository = commentRepository;
+		}
+
 		public IPostRepository PostRepository
 		{
 			get

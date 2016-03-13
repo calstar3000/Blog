@@ -16,7 +16,7 @@ namespace Blog.Controllers
 		public PostsController(IPostRepository postRepository) 
 			: base(postRepository) { }
 
-		// GET: api/blog/posts/
+		// GET: api/blog/posts
 		public IEnumerable<PostModel> Get()
 		{
 			return PostRepository.GetPosts().Select(p => ModelFactory.Create(p));
@@ -33,11 +33,9 @@ namespace Blog.Controllers
 			return Request.CreateResponse(HttpStatusCode.OK, result);
 		}
 
-		// POST: api/Posts
+		// POST: api/blog/posts
 		public HttpResponseMessage Post([FromBody]PostModel postRequest)
 		{
-			PostModel result = new PostModel();
-
 			try
 			{
 				Post post = ModelFactory.Parse(postRequest);
@@ -45,9 +43,9 @@ namespace Blog.Controllers
 				if (post == null)
 					Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Could not read post in body");
 
-				int postId = post.Save();
+				post.Save();
 
-				return Request.CreateResponse(HttpStatusCode.Created, ModelFactory.Create(PostRepository.GetPost(postId)));
+				return Request.CreateResponse(HttpStatusCode.Created, ModelFactory.Create(PostRepository.GetPost(post.Id)));
 			}
 			catch (Exception ex)
 			{
@@ -55,14 +53,49 @@ namespace Blog.Controllers
 			}
 		}
 
-		// PUT: api/Posts/5
-		public void Put(int id, [FromBody]string value)
+		// PUT: api/blog/posts/5
+		public HttpResponseMessage Put(int postId, [FromBody]PostModel putRequest)
 		{
+			try
+			{
+				Post post = PostRepository.GetPost(postId);
+
+				if (post == null)
+					return Request.CreateResponse(HttpStatusCode.NotFound);
+
+				post = ModelFactory.Parse(putRequest, postId);
+				
+				if (post == null)
+					Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Could not read post in body");
+
+				post.Save();
+
+				return Request.CreateResponse(HttpStatusCode.Created, ModelFactory.Create(PostRepository.GetPost(post.Id)));
+			}
+			catch (Exception ex)
+			{
+				return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
+			}
 		}
 
-		// DELETE: api/Posts/5
-		public void Delete(int id)
+		// DELETE: api/blog/posts/5
+		public HttpResponseMessage Delete(int postId)
 		{
+			try
+			{
+				Post post = PostRepository.GetPost(postId);
+
+				if (post == null)
+					return Request.CreateResponse(HttpStatusCode.NotFound);
+
+				post.Delete();
+
+				return Request.CreateResponse(HttpStatusCode.OK);
+			}
+			catch (Exception ex)
+			{
+				return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
+			}
 		}
 	}
 }

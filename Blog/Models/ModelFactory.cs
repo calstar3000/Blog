@@ -45,7 +45,7 @@ namespace Blog.Models
 			};
 		}
 
-		public Post Parse(PostModel post)
+		public Post Parse(PostModel post, int id = 0)
 		{
 			try
 			{
@@ -56,8 +56,28 @@ namespace Blog.Models
 
 				return new Post()
 				{
+					Id = id,
 					Title = post.Title,
 					Body = post.Body
+				};
+			}
+			catch
+			{
+				return null;
+			}
+		}
+
+		public Comment Parse(CommentModel comment, int id = 0)
+		{
+			try
+			{
+				if (string.IsNullOrEmpty(comment.Body))
+					return null;
+				
+				return new Comment()
+				{
+					Id = id,
+					Body = comment.Body
 				};
 			}
 			catch

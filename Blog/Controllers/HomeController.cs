@@ -6,7 +6,14 @@ namespace Blog.Controllers
 	{
 		public ActionResult Index()
 		{
-			ViewBag.Title = "Home Page";
+			ViewBag.Title = "There will be bugs";
+
+			return View();
+		}
+
+		public ActionResult New()
+		{
+			ViewBag.Title = "There will be bugs";
 
 			return View();
 		}

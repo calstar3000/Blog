@@ -11,8 +11,8 @@ using System.Web.Http;
 
 namespace Blog.Controllers
 {
-	//[AllowAnonymous]
-	[BlogAuthorize]
+	[AllowAnonymous]
+	//[BlogAuthorize]
 	public class PostsController : BaseApiController
 	{
 		public PostsController(IPostRepository postRepository) 

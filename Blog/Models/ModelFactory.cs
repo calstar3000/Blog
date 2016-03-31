@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Web.Http.Routing;
 using System;
+using System.Web;
 
 namespace Blog.Models
 {
@@ -57,8 +58,8 @@ namespace Blog.Models
 				return new Post()
 				{
 					Id = id,
-					Title = post.Title,
-					Body = post.Body
+					Title = HttpUtility.HtmlEncode(post.Title),
+					Body = HttpUtility.HtmlEncode(post.Body)
 				};
 			}
 			catch

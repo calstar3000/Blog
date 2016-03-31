@@ -1,8 +1,10 @@
 ﻿
 <div class="row">
-	<form>
-		<label for="exampleMessage">New post</label>
-		<textarea class="u-full-width" placeholder="A long time ago, in a galaxy far far away…" id="exampleMessage"></textarea>
-		<input class="button-primary" type="submit" value="Publish">
+	<form id="newPostForm">
+		<label for="title">Title</label>
+		<input type="text" id="title" name="title" class="u-full-width" placeholder="A long time ago," />
+		<label for="body">Body</label>
+		<textarea id="body" name="body" class="u-full-width" placeholder="in a galaxy far far away…"></textarea>
+		<input id="btnPublish" class="button-primary" type="submit" value="Publish">
 	</form>
 </div>

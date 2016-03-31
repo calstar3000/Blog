@@ -8,3 +8,47 @@ header {
 .nav-links {
 	line-height: 60px;
 }
+
+/*
+	Alert messages
+*/
+
+.alert {
+	margin: 0;
+	margin-bottom: 10px;
+	border-radius: 5px;
+}
+
+.alert > p {
+	margin-bottom: 0;
+	padding: 10px;
+	border-radius: 5px;
+}
+
+.alert > p > i {
+	display: inline-block;
+	vertical-align: top;
+	height: 24px;
+	width: 24px;
+}
+
+.alert.success > p {
+	border: 1px solid #5DD28B;
+	background-color: #9DF5BF;
+}
+
+.alert.success > p > i {
+	color: #5DD28B;
+}
+
+/*
+	Post list
+*/
+
+ul.post-list {
+	list-style-type: none;
+}
+
+ul.post-list time {
+	color: #ccc;
+}

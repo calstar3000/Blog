@@ -16,6 +16,12 @@ namespace Blog
 			);
 
 			routes.MapRoute(
+				name: "Register",
+				url: "register",
+				defaults: new { controller = "Home", action = "Register" }
+			);
+
+			routes.MapRoute(
 				name: "Default",
 				url: "{controller}/{action}/{id}",
 				defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }

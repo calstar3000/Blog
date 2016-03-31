@@ -17,5 +17,12 @@ namespace Blog.Controllers
 
 			return View();
 		}
+
+		public ActionResult Register()
+		{
+			ViewBag.Title = "There will be bugs";
+
+			return View();
+		}
 	}
 }

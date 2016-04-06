@@ -1,6 +1,6 @@
 ﻿$.fn.LoadPosts = function () {
 	var $this = $(this);
-	$.getJSON("/api/blog/posts/", null, function (data) {
+	$.getJSON("http://localhost:55175/api/blog/posts/", null, function (data) {
 		console.log(data);
 
 		$.each(data, function () {

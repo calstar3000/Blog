@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace Blog.API.Controllers
 {
@@ -16,12 +17,14 @@ namespace Blog.API.Controllers
 			: base(postRepository, commentRepository) { }
 
 		// GET: api/blog/posts/5/comments
+		[EnableCors(origins: "http://localhost:55180", headers: "*", methods: "*")]
 		public IEnumerable<CommentModel> Get(int postId)
 		{
 			return CommentRepository.GetComments(postId).Select(c => ModelFactory.Create(c, postId));
 		}
 
 		// GET: api/blog/posts/5/comments/1
+		[EnableCors(origins: "http://localhost:55180", headers: "*", methods: "*")]
 		public HttpResponseMessage Get(int postId, int commentId)
 		{
 			CommentModel result = ModelFactory.Create(CommentRepository.GetComment(postId, commentId), postId);
@@ -33,6 +36,7 @@ namespace Blog.API.Controllers
 		}
 
 		// POST: api/blog/posts/5/comments
+		[EnableCors(origins: "http://localhost:55180", headers: "*", methods: "*")]
 		public HttpResponseMessage Post(int postId, [FromBody]CommentModel postRequest)
 		{
 			try
@@ -56,6 +60,7 @@ namespace Blog.API.Controllers
 		}
 
 		// PUT: api/Comments/5
+		[EnableCors(origins: "http://localhost:55180", headers: "*", methods: "*")]
 		public HttpResponseMessage Put(int postId, int commentId, [FromBody]CommentModel putRequest)
 		{
 			try
@@ -84,6 +89,7 @@ namespace Blog.API.Controllers
 		}
 
 		// DELETE: api/blog/posts/5/comments/1
+		[EnableCors(origins: "http://localhost:55180", headers: "*", methods: "*")]
 		public HttpResponseMessage Delete(int postId, int commentId)
 		{
 			try

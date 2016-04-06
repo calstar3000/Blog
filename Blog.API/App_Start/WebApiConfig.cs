@@ -20,6 +20,8 @@ namespace Blog.API
 			config.Filters.Add(new RequireHttpsAttribute());
 #endif
 
+			config.EnableCors();
+
 			// Web API routes
 			config.MapHttpAttributeRoutes();
 

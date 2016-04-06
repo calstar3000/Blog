@@ -10,7 +10,7 @@
 
 #pragma warning disable 1591
 
-namespace Blog.Data {
+namespace Blog.API.Data {
     
     
     /// <summary>
@@ -1111,7 +1111,7 @@ namespace Blog.Data {
         }
     }
 }
-namespace Blog.Data.BlogDataSetTableAdapters {
+namespace Blog.API.Data.BlogDataSetTableAdapters {
     
     
     /// <summary>
@@ -1275,7 +1275,7 @@ SELECT id, post_id, body, date_posted FROM comment WHERE (id = @id)";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private void InitConnection() {
             this._connection = new global::System.Data.SqlClient.SqlConnection();
-            this._connection.ConnectionString = global::Blog.Data.Properties.Settings.Default.BlogConnectionString;
+            this._connection.ConnectionString = global::Blog.API.Data.Properties.Settings.Default.BlogConnectionString;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1597,7 +1597,7 @@ SELECT id, title, body, date_posted FROM post WHERE (id = @id)";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private void InitConnection() {
             this._connection = new global::System.Data.SqlClient.SqlConnection();
-            this._connection.ConnectionString = global::Blog.Data.Properties.Settings.Default.BlogConnectionString;
+            this._connection.ConnectionString = global::Blog.API.Data.Properties.Settings.Default.BlogConnectionString;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

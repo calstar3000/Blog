@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Blog.Data.Repositories.Interfaces
+namespace Blog.API.Data.Repositories.Interfaces
 {
 	public interface IPostRepository
 	{

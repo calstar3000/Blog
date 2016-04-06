@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 
-namespace Blog.Data
+namespace Blog.API.Data
 {
 	public class Post
 	{

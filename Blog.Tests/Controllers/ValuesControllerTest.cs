@@ -5,10 +5,10 @@ using System.Net.Http;
 using System.Text;
 using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Blog;
-using Blog.Controllers;
+using Blog.API;
+using Blog.API.Controllers;
 
-namespace Blog.Tests.Controllers
+namespace Blog.API.Tests.Controllers
 {
 	[TestClass]
 	public class ValuesControllerTest

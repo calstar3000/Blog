@@ -2,7 +2,7 @@
 using System.Configuration;
 using System.Data.SqlClient;
 
-namespace Blog.Data.Repositories
+namespace Blog.API.Data.Repositories
 {
 	public class PostRepository : Interfaces.IPostRepository
 	{

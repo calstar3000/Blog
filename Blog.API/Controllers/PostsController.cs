@@ -20,14 +20,14 @@ namespace Blog.API.Controllers
 			: base(postRepository) { }
 
 		// GET: api/blog/posts
-		[EnableCors(origins: "http://localhost:55180", headers: "*", methods: "*")]
+		[EnableCors(origins: "*", headers: "*", methods: "*")]
 		public IEnumerable<PostModel> Get()
 		{
 			return PostRepository.GetPosts().Select(p => ModelFactory.Create(p));
 		}
 
 		// GET: api/blog/posts/5
-		[EnableCors(origins: "http://localhost:55180", headers: "*", methods: "*")]
+		[EnableCors(origins: "*", headers: "*", methods: "*")]
 		public HttpResponseMessage Get(int postId)
 		{
 			PostModel result = ModelFactory.Create(PostRepository.GetPost(postId));
@@ -39,7 +39,7 @@ namespace Blog.API.Controllers
 		}
 
 		// POST: api/blog/posts
-		[EnableCors(origins: "http://localhost:55180", headers: "*", methods: "*")]
+		[EnableCors(origins: "*", headers: "*", methods: "*")]
 		public HttpResponseMessage Post([FromBody]PostModel postRequest)
 		{
 			try
@@ -60,7 +60,7 @@ namespace Blog.API.Controllers
 		}
 
 		// PUT: api/blog/posts/5
-		[EnableCors(origins: "http://localhost:55180", headers: "*", methods: "*")]
+		[EnableCors(origins: "*", headers: "*", methods: "*")]
 		public HttpResponseMessage Put(int postId, [FromBody]PostModel putRequest)
 		{
 			try
@@ -86,7 +86,7 @@ namespace Blog.API.Controllers
 		}
 
 		// DELETE: api/blog/posts/5
-		[EnableCors(origins: "http://localhost:55180", headers: "*", methods: "*")]
+		[EnableCors(origins: "*", headers: "*", methods: "*")]
 		public HttpResponseMessage Delete(int postId)
 		{
 			try

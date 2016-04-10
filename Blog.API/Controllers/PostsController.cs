@@ -26,6 +26,18 @@ namespace Blog.API.Controllers
 			return PostRepository.GetPosts().Select(p => ModelFactory.Create(p));
 		}
 
+		// GET: api/blog/posts/latest
+		[EnableCors(origins: "*", headers: "*", methods: "*")]
+		public HttpResponseMessage GetLatest()
+		{
+			PostModel result = ModelFactory.Create(PostRepository.GetLatestPost());
+
+			if (result == null)
+				return Request.CreateResponse(HttpStatusCode.NotFound);
+
+			return Request.CreateResponse(HttpStatusCode.OK, result);
+		}
+
 		// GET: api/blog/posts/5
 		[EnableCors(origins: "*", headers: "*", methods: "*")]
 		public HttpResponseMessage Get(int postId)

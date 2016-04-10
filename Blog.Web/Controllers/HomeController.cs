@@ -14,6 +14,11 @@ namespace Blog.Web.Controllers
 			return View();
 		}
 
+		public ActionResult Archive()
+		{
+			return View();
+		}
+
 		public ActionResult Register()
 		{
 			return View();

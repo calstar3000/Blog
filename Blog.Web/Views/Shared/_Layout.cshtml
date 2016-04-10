@@ -10,6 +10,9 @@
 	@Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
+	@Scripts.Render("~/bundles/jquery")
+	@Scripts.Render("~/bundles/js")
+	@RenderSection("scripts", required: false)
 	<header>
 		<div class="container">
 			<div class="row">
@@ -18,6 +21,9 @@
 				</div>
 				<div class="two columns nav-links">
 					<a href="/">Home</a>
+				</div>
+				<div class="two columns nav-links">
+					<a href="/posts/archive">Archive</a>
 				</div>
 				<div class="two columns nav-links">
 					<a href="/posts/new">New post</a>
@@ -35,9 +41,5 @@
 
 		@RenderBody()
 	</div>
-
-	@Scripts.Render("~/bundles/jquery")
-	@Scripts.Render("~/bundles/js")
-	@RenderSection("scripts", required: false)
 </body>
 </html>

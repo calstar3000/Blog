@@ -30,9 +30,15 @@ namespace Blog.API
 			config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
 
 			config.Routes.MapHttpRoute(
+				name: "Post - latest",
+				routeTemplate: "api/blog/posts/latest",
+				defaults: new { controller = "posts", action = "GetLatest" }
+			);
+
+			config.Routes.MapHttpRoute(
 				name: "Post",
 				routeTemplate: "api/blog/posts/{postId}",
-				defaults: new { controller = "posts", postId = RouteParameter.Optional }
+				defaults: new { controller = "posts", action = "Get", postId = RouteParameter.Optional }
 			);
 
 			config.Routes.MapHttpRoute(

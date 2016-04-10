@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 
@@ -6,6 +7,30 @@ namespace Blog.API.Data.Repositories
 {
 	public class PostRepository : Interfaces.IPostRepository
 	{
+		public Post GetLatestPost()
+		{
+			Post result = null;
+			SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+
+			using (connection)
+			{
+				SqlCommand command = new SqlCommand("SELECT TOP 1 id, title, body, date_posted FROM dbo.post WITH(NOLOCK) ORDER BY id DESC;", connection);
+
+				connection.Open();
+
+				SqlDataReader dr = command.ExecuteReader();
+
+				if (dr.HasRows && dr.Read())
+				{
+					result = PopulatePost(dr);
+				}
+
+				dr.Close();
+			}
+
+			return result;
+		}
+
 		public Post GetPost(int id)
 		{
 			Post result = null;

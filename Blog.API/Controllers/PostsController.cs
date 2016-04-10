@@ -21,21 +21,13 @@ namespace Blog.API.Controllers
 
 		// GET: api/blog/posts
 		[EnableCors(origins: "*", headers: "*", methods: "*")]
-		public IEnumerable<PostModel> Get()
+		public IEnumerable<PostModel> Get(int page = 1, int rows = 1)
 		{
-			return PostRepository.GetPosts().Select(p => ModelFactory.Create(p));
-		}
-
-		// GET: api/blog/posts/latest
-		[EnableCors(origins: "*", headers: "*", methods: "*")]
-		public HttpResponseMessage GetLatest()
-		{
-			PostModel result = ModelFactory.Create(PostRepository.GetLatestPost());
-
-			if (result == null)
-				return Request.CreateResponse(HttpStatusCode.NotFound);
-
-			return Request.CreateResponse(HttpStatusCode.OK, result);
+			return PostRepository.GetPosts()
+				.Select(p => ModelFactory.Create(p))
+				.Skip((page - 1) * rows)
+				.Take(rows)
+				.OrderByDescending(p => p.Id);
 		}
 
 		// GET: api/blog/posts/5

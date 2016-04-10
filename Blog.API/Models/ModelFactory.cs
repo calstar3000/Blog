@@ -23,7 +23,7 @@ namespace Blog.API.Models
 
 			return new PostModel()
 			{
-				Url = _urlHelper.Link("Post", new { controller = "posts", postId = post.Id }),
+				Url = _urlHelper.Link("Post", new { postId = post.Id }),
 				Id = post.Id,
 				Title = post.Title,
 				Body = post.Body,

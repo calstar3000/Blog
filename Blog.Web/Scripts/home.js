@@ -1,14 +1,18 @@
 ﻿$.fn.LoadLatestPost = function () {
 	var $this = $(this);
 
-	$.getJSON("http://dev.api.blog.co.nz/api/blog/posts/latest/", null, function (data) {
+	$.getJSON("http://dev.api.blog.co.nz/api/blog/posts/", null, function (data) {
 		var $comments = $("<ul></ul>");
+		var post = data[0];
 
-		$.each(data.comments, function () {
+		if (post == null || post == undefined)
+			return;
+
+		$.each(post.comments, function () {
 			$comments.append("<li><p>" + this.body + "</p></li>")
 		});
 
-		var html = getPostHTML(data);
+		var html = getPostHTML(post);
 
 		$this.append(html + $comments[0].outerHTML + "</li>");
 	});
@@ -17,7 +21,7 @@
 $.fn.LoadPosts = function () {
 	var $this = $(this);
 
-	$.getJSON("http://dev.api.blog.co.nz/api/blog/posts/", null, function (data) {
+	$.getJSON("http://dev.api.blog.co.nz/api/blog/posts/?page=1&rows=20", null, function (data) {
 		
 		$.each(data, function () {
 			var post = this;
@@ -38,7 +42,7 @@ $(document).ready(function () {
 	$("#btnPublish").click(function () {
 		var $formData = $("#newPostForm").serialize();
 
-		$.post("/api/blog/posts/", $formData, function (data, textStatus, xhr) { newPostSuccess(data, textStatus, xhr); }, "json");
+		$.post("http://dev.api.blog.co.nz/api/blog/posts/", $formData, function (data, textStatus, xhr) { newPostSuccess(data, textStatus, xhr); }, "json");
 
 		return false;
 	});
@@ -53,11 +57,16 @@ function getPostHTML(post) {
 	var dateParts = post.datePosted.substring(0, post.datePosted.indexOf("T")).split("-");
 	var datePosted = dateParts[2] + "/" + dateParts[1] + "/" + dateParts[0];
 
+	var paragraphs = post.body.split("\n");
+	var bodyText = "";
+
+	$.each(paragraphs, function (k, v) { bodyText += "<p>" + v + "</p>"; });
+
 	var html = "<li>" +
 				"	<article>" +
 				"		<span><time>" + datePosted + "</time></span>" +
 				"		<h3>" + post.title + "</h3>" +
-				"		<section class=\"post-content\"><p>" + post.body + "</p></section>" +
+				"		<section class=\"post-content\">" + bodyText + "</section>" +
 				"	</article>" +
 				"</li>";
 

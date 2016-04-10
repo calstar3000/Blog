@@ -6,6 +6,5 @@ namespace Blog.API.Data.Repositories.Interfaces
 	{
 		Post GetPost(int id);
 		List<Post> GetPosts();
-		Post GetLatestPost();
 	}
 }

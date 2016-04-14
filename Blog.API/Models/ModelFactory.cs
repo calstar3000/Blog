@@ -78,7 +78,7 @@ namespace Blog.API.Models
 				return new Comment()
 				{
 					Id = id,
-					Body = comment.Body
+					Body = HttpUtility.HtmlEncode(comment.Body)
 				};
 			}
 			catch

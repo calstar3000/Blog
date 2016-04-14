@@ -1,0 +1,15 @@
+﻿
+<form id="newCommentForm">
+	<label for="body">New comment</label>
+	<textarea id="body" name="body" class="u-full-width" placeholder="I beg your pardon, Mrs Arden!"></textarea>
+	<input id="btnPublishComment" class="button-primary" type="submit" value="Publish">
+</form>
+
+<script>
+	$(document).ready(function () {
+		$("#btnPublishComment").click(function () {
+			$("#newCommentForm").publishComment();
+			return false;
+		});
+	});
+</script>

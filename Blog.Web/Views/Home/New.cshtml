@@ -8,3 +8,12 @@
 		<input id="btnPublish" class="button-primary" type="submit" value="Publish">
 	</form>
 </div>
+
+<script>
+	$(document).ready(function () {
+		$("#btnPublish").click(function () {
+			$("#newPostForm").publishPost();
+			return false;
+		});
+	});
+</script>

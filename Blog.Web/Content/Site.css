@@ -1,8 +1,26 @@
 ﻿
+/*
+	Helpers
+*/
+
+.hidden {
+	display: none;
+}
+
+/*
+	Layout
+*/
+
 header {
 	padding-top: 20px;
 	margin-bottom: 40px;
 	border-bottom: 1px solid #cccccc;
+}
+
+footer {
+	height: 60px;
+	margin-top: 40px;
+	border-top: 1px solid #cccccc;
 }
 
 .nav-links {
@@ -51,4 +69,28 @@ ul.post-list {
 
 ul.post-list time {
 	color: #ccc;
+}
+
+/*
+	Comment list
+*/
+
+ul.comment-list {
+	padding-top: 1rem;
+	border-top: 2px solid #cccccc;
+	list-style-type: none;
+}
+
+ul.comment-list li {
+	border-bottom: 1px solid #cccccc;
+}
+
+ul.comment-list time {
+	color: #ccc;
+	display: block;
+	text-align: right;
+}
+
+ul ul.comment-list {
+	margin: inherit;
 }

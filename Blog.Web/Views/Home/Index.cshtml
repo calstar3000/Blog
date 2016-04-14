@@ -1,13 +1,24 @@
 ﻿
-<div class="row">
+<div class="row post-panel">
 	<div class="twelve columns">
 		<h4>Latest posts</h4>
 		<ul id="postList" class="post-list"></ul>
+		<h5>Comments</h5>
+		<ul id="commentList" class="comment-list"></ul>
+		<button id="btnComment" class="button-primary">Add a comment</button>
+	</div>
+	<div id="commentForm" class="row hidden">
+		@(Html.Partial("~/Views/Shared/_CommentForm.cshtml"))
 	</div>
 </div>
 
 <script>
 	$(document).ready(function () {
-		$("#postList").LoadLatestPost();
+		$("#postList").LoadLatestPost($("#commentList"));
+
+		$("#btnComment").click(function () {
+			$("#commentForm").removeClass("hidden");
+			$(this).addClass("hidden");
+		});
 	});
 </script>

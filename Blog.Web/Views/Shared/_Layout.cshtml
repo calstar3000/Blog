@@ -32,14 +32,30 @@
 		</div>
 	</header>
 	<div class="container">
-		@if (Request.QueryString["s"] == "1")
+		@if (!string.IsNullOrEmpty(Request.QueryString["s"]))
 		{
 			<div class="alert success u-full-width">
-				<p><i class="material-icons">check_circle</i> Post created successfully</p>
+				<p><i class="material-icons">check_circle</i> @(string.Format("{0} created successfully", Request.QueryString["s"] == "1" ? "Post" : "Comment"))</p>
 			</div>
 		}
 
 		@RenderBody()
 	</div>
+	<footer>
+		<div class="container">
+			<div class="row">
+				<div class="six columns">&nbsp;</div>
+				<div class="two columns nav-links">
+					<a href="#">Twitter</a>
+				</div>
+				<div class="two columns nav-links">
+					<a href="#">LinkedIn</a>
+				</div>
+				<div class="two columns nav-links">
+					<a href="#">Email</a>
+				</div>
+			</div>
+		</div>
+	</footer>
 </body>
 </html>

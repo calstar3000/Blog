@@ -13,9 +13,11 @@
 				<article>
 					<span><time>{{ post.datePosted }}</time></span>
 					<h3>{{ post.title }}</h3>
-					<section class="post-content">{{ post.bodyText }}</section>
+					<section class="post-content">
+						<p ng-repeat="paragraph in post.paragraphs track by $index">{{ paragraph }}</p>
+				</section>
 				</article>
-			</li>
+			</p>
 		</ul>
 	</div>
 </div>

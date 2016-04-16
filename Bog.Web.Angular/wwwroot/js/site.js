@@ -28,18 +28,14 @@ function getPosts(data) {
 
 	$.each(res, function () {
 		this.datePosted = formatDate(this.datePosted);
-		this.bodyText = getPostBodyText(this.body);
+		this.paragraphs = getPostParagraphs(this.body);
 	});
 
 	return res;
 }
 
-function getPostBodyText(body) {
-	var paragraphs = body.split("\n");
-	var bodyText = "";
-	$.each(paragraphs, function (k, v) { bodyText += "<p>" + v + "</p>"; });
-
-	return bodyText;
+function getPostParagraphs(body) {
+	return body.split("\n");
 }
 
 function formatDate(date) {

@@ -5,13 +5,17 @@
 <div class="row">
 	<current-time></current-time>
 </div>
-<div class="row">
+<div ng-controller="PostListCtrl" class="row">
 	<div class="col-md-12">
-		<h2>Application uses</h2>
-		<ul>
-			<li>Sample pages using ASP.NET MVC 6</li>
-			<li><a href="http://go.microsoft.com/fwlink/?LinkId=518007">Gulp</a> and <a href="http://go.microsoft.com/fwlink/?LinkId=518004">Bower</a> for managing client-side libraries</li>
-			<li>Theming using <a href="http://go.microsoft.com/fwlink/?LinkID=398939">Bootstrap</a></li>
+		<h2>Latest posts</h2>
+		<ul class="comment-list">
+			<li ng-repeat="post in posts">
+				<article>
+					<span><time>{{ post.datePosted }}</time></span>
+					<h3>{{ post.title }}</h3>
+					<section class="post-content">{{ post.bodyText }}</section>
+				</article>
+			</li>
 		</ul>
 	</div>
 </div>

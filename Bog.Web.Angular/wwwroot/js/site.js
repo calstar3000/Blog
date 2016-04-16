@@ -1,5 +1,7 @@
 ﻿// Write your Javascript code.
 
+var API_BASE_URL = "http://localhost:41824";
+
 angular.module('blogApp', ['ui.bootstrap'])
 	.run(function () {
 		console.log('Hello, world, from blogApp!');
@@ -13,4 +15,34 @@ angular.module('blogApp', ['ui.bootstrap'])
 				vm.currentTime = new Date().toLocaleTimeString();
 			}
 		}
+	})
+	.controller('PostListCtrl', function ($scope, $http) {
+
+		$http.get(API_BASE_URL + '/api/blog/posts/?page=1&rows=20').success(function (data) {
+			$scope.posts = getPosts(data);
+		});
 	});
+
+function getPosts(data) {
+	var res = data;
+
+	$.each(res, function () {
+		this.datePosted = formatDate(this.datePosted);
+		this.bodyText = getPostBodyText(this.body);
+	});
+
+	return res;
+}
+
+function getPostBodyText(body) {
+	var paragraphs = body.split("\n");
+	var bodyText = "";
+	$.each(paragraphs, function (k, v) { bodyText += "<p>" + v + "</p>"; });
+
+	return bodyText;
+}
+
+function formatDate(date) {
+	var dateParts = date.substring(0, date.indexOf("T")).split("-");
+	return (dateParts[2] + "/" + dateParts[1] + "/" + dateParts[0]);
+}

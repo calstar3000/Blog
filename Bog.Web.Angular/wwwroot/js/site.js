@@ -21,6 +21,15 @@ angular.module('blogApp', ['ui.bootstrap'])
 		$http.get(API_BASE_URL + '/api/blog/posts/?page=1&rows=20').success(function (data) {
 			$scope.posts = getPosts(data);
 		});
+	})
+	.controller('AlertDemoCtrl', function ($scope, $location) {
+		$scope.alerts = [
+		  { type: 'success', msg: 'Well done! You successfully read this important alert message.' }
+		];
+
+		$scope.closeAlert = function (index) {
+			$scope.alerts.splice(index, 1);
+		};
 	});
 
 function getPosts(data) {

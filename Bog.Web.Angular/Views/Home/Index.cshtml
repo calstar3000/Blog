@@ -13,11 +13,11 @@
 	</script>
 	<uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</uib-alert>
 </div>
-<div ng-controller="PostListCtrl" class="row">
+<div ng-controller="PostsController as postList" class="row">
 	<div class="col-md-12">
 		<h2>Latest posts</h2>
 		<ul class="comment-list">
-			<li ng-repeat="post in posts">
+			<li ng-repeat="post in postList.posts">
 				<article>
 					<span><time>{{ post.datePosted }}</time></span>
 					<h3>{{ post.title }}</h3>

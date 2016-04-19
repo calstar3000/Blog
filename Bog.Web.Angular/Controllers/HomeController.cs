@@ -9,6 +9,11 @@ namespace Bog.Web.Angular.Controllers
 			return View();
 		}
 
+		public IActionResult Publish()
+		{
+			return View();
+		}
+
 		public IActionResult About()
 		{
 			ViewData["Message"] = "Your application description page.";

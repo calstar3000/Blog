@@ -31,8 +31,8 @@
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
 					<li><a asp-controller="Home" asp-action="Index">Home</a></li>
-					<li><a asp-controller="Home" asp-action="About">Archive</a></li>
-					<li><a asp-controller="Home" asp-action="Contact">New Post</a></li>
+					<li><a asp-controller="Home" asp-action="Archive">Archive</a></li>
+					<li><a asp-controller="Home" asp-action="Publish">New Post</a></li>
 				</ul>
 				@await Html.PartialAsync("_LoginPartial")
 			</div>
@@ -55,6 +55,7 @@
 		<script src="~/lib/ui-bootstrap-tpls.js"></script>
 		<script src="~/js/app.module.js" asp-append-version="true"></script>
 		<script src="~/js/posts.controller.js" asp-append-version="true"></script>
+		<script src="~/js/publish.controller.js" asp-append-version="true"></script>
 	</environment>
 	<environment names="Staging,Production">
 		<script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.1.4.min.js"
